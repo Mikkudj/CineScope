@@ -1,21 +1,25 @@
-# 🎬 CineScope
+# 🎬 CineScope — Discover Your Next Watch
 
-**Discover your next watch.** CineScope is a movie and TV discovery web app that brings movie details, ratings, cast information, trailers, and streaming availability together in one place.
+CineScope is a movie and TV show discovery platform that brings trending titles, ratings, cast information, trailers, and streaming availability together in one place.
+
+🌐 **Live Demo:** https://cinescope.divyajyotmehta.workers.dev  
+⚙️ **Backend API:** https://cinescope-qwa6.onrender.com  
+📚 **API Documentation:** https://cinescope-qwa6.onrender.com/docs
 
 ## ✨ Features
 
-- Browse movies and TV series.
-- Search for titles.
-- Explore trending and upcoming titles.
-- View title details, including ratings, overview, cast, and crew where available.
-- Watch trailers through YouTube links when available.
-- Check India streaming-provider availability where supported by the data source.
-- View available audio and subtitle languages when supplied by the streaming data provider.
-- Save titles to a personal watchlist.
+- 🎥 Browse movies and TV shows.
+- 🔎 Search for titles.
+- 🔥 Explore trending and upcoming releases.
+- ⭐ View ratings, overviews, cast, and other title details.
+- ▶️ Find YouTube trailer links when available.
+- 📺 Check streaming availability in India where supported.
+- 🌐 View available audio and subtitle languages when provided.
+- ❤️ Save titles to a personal watchlist.
 
-> **Data note:** Streaming availability and language information depend on third-party provider data and may not be available for every title. A streaming option's `availableSince` date can indicate when availability was first detected by the data provider; it is not necessarily the official OTT premiere date.
+> **Note:** Streaming availability and language information depend on third-party data and may not be available for every title. An `availableSince` date indicates when availability was first detected by the data provider; it may not represent the official OTT release date.
 
-## 🧰 Tech Stack
+## 🛠️ Tech Stack
 
 ### Frontend
 - React
@@ -27,72 +31,58 @@
 - FastAPI
 - Uvicorn
 
-### Data providers / integrations
-- TMDB — movie and TV metadata, images, and provider information.
-- OMDb — IMDb ratings and related metadata when configured.
-- Streaming Availability API — streaming options, audio languages, and subtitle languages when configured.
-- YouTube — trailer links.
+### APIs and Integrations
+- **TMDB:** Movie and TV metadata, images, and related information.
+- **OMDb:** IMDb ratings and additional metadata when configured.
+- **Streaming Availability API:** Streaming options and language information when configured.
+- **YouTube:** Trailer links.
 
-## 📁 Project Structure
+## 🏗️ Architecture
 
-```text
-CineScope/
-├── backend/
-│   ├── main.py
-│   ├── .env                 # Local API keys; do not commit this file
-│   └── requirements.txt
-└── frontend/
-    ├── src/
-    │   ├── App.jsx
-    │   └── style.css
-    ├── package.json
-    └── ...
-```
+CineScope uses a React frontend to provide the user interface and a FastAPI backend to handle API requests and retrieve information from external data providers.
 
-Your project may contain additional files and folders; keep them in place.
+- **Frontend hosting:** Cloudflare
+- **Backend hosting:** Render
+- **API communication:** HTTP/REST
 
-## 🚀 Getting Started
+## 🚀 Run Locally
 
 ### Prerequisites
 
 Install:
-- Python 3.11 or a compatible Python version
+- Python 3.11 or a compatible version
 - Node.js and npm
-- Git (for GitHub)
+- Git
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/CineScope.git
+git clone https://github.com/Mikkudj/CineScope.git
 cd CineScope
 ```
 
-Replace `YOUR-USERNAME` with your GitHub username and use your actual repository URL.
+### 2. Set Up the Backend
 
-### 2. Configure the backend
-
-Open a terminal in the backend directory:
+Open a terminal:
 
 ```powershell
 cd backend
+py -3.11 -m venv .venv
 ```
 
-Create and activate a virtual environment (recommended):
+Activate the virtual environment:
 
 ```powershell
-py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-If PowerShell blocks activation, use a terminal where activation is allowed or run the installed environment's Python directly.
-
-Install the backend requirements:
+Install the dependencies:
 
 ```powershell
 python -m pip install -r requirements.txt
 ```
 
-Create `backend/.env` and add the API keys required by your backend. For example:
+Create a `.env` file inside the `backend` directory and add the API keys required by your application:
 
 ```env
 TMDB_API_KEY=your_tmdb_api_key
@@ -100,7 +90,7 @@ OMDB_API_KEY=your_omdb_api_key
 STREAMING_API_KEY=your_streaming_availability_api_key
 ```
 
-Use the exact environment-variable names expected by your `backend/main.py`. If a provider is optional in your code, its key may be optional. **Never publish real API keys.**
+Use the exact environment-variable names expected by your backend code. Optional integrations may not require a key.
 
 Start the backend:
 
@@ -108,11 +98,13 @@ Start the backend:
 python -m uvicorn main:app --reload --port 8000
 ```
 
-The API should be available at `http://127.0.0.1:8000`. If FastAPI's interactive docs are enabled, open `http://127.0.0.1:8000/docs`.
+Backend URL: http://127.0.0.1:8000
 
-### 3. Configure and start the frontend
+Interactive API documentation: http://127.0.0.1:8000/docs
 
-Open a second terminal:
+### 3. Set Up the Frontend
+
+Open a second terminal from the project root:
 
 ```powershell
 cd frontend
@@ -120,20 +112,43 @@ npm install
 npm run dev
 ```
 
-Open the local URL printed by Vite (commonly `http://localhost:5173`).
+Open the local URL displayed by Vite, usually:
 
-Keep both terminal windows running while using the app.
+http://localhost:5173
 
-## 🔐 Security Checklist
+Keep both development servers running while testing the application.
 
-Before pushing the project to GitHub:
+## 🌍 Deployment
 
-- Ensure `.env` files are ignored by Git.
-- Never commit API keys, tokens, passwords, or private credentials.
-- Do not commit `node_modules/`, Python virtual environments, or cache files.
-- If an API key was accidentally published, revoke/rotate it with the provider and remove it from the repository history as appropriate.
+CineScope is deployed using separate frontend and backend services.
 
-Example `.gitignore` entries (add these to your root `.gitignore` if they are not already present):
+| Component | Platform |
+|---|---|
+| Frontend | Cloudflare |
+| Backend | Render |
+| Backend framework | FastAPI |
+| Frontend framework | React |
+
+The frontend uses the deployed backend URL through the `VITE_API_BASE_URL` environment variable.
+
+For local development, configure the frontend to use your local FastAPI server.
+
+**Deployment links:**
+- Live application: https://cinescope.divyajyotmehta.workers.dev
+- Backend: https://cinescope-qwa6.onrender.com
+- API docs: https://cinescope-qwa6.onrender.com/docs
+
+> **Note:** A free Render service may take some time to respond after a period of inactivity because it can enter a sleeping state.
+
+## 🔐 Security
+
+- Never commit real API keys or credentials.
+- Keep `.env` files out of Git.
+- Do not commit `node_modules`, virtual environments, or generated build files.
+- Use placeholder values in any example environment file.
+- If an API key is accidentally exposed, revoke or rotate it.
+
+Example `.gitignore` entries:
 
 ```gitignore
 .env
@@ -147,29 +162,35 @@ node_modules/
 dist/
 ```
 
-If the app needs environment variables, you can commit an `.env.example` containing placeholder values only.
+Check your existing `.gitignore` before adding these entries.
 
-## 🛠️ Troubleshooting
+## 🐛 Troubleshooting
 
-- **“Failed to fetch”**: Confirm the backend is running at `http://127.0.0.1:8000` and that the frontend is configured to use the correct backend URL.
-- **No titles appear**: Check that required API keys are configured in `backend/.env` and look for errors in the backend terminal.
-- **Audio/subtitle/streaming details are missing**: Not every title has complete provider data. Confirm the streaming API key and its usage limits.
-- **Port already in use**: Stop the other process or choose another port and update the frontend's backend URL if needed.
+**Failed to fetch**
+- Check whether the backend is running.
+- Verify that the frontend is using the correct backend URL.
+- Check the browser console and backend logs for errors.
 
-## 📸 Screenshots
+**Titles or details are missing**
+- Verify the required API keys.
+- Check the backend logs for API errors or rate limits.
 
-Add screenshots of CineScope here to show the interface on GitHub. For example, create a `screenshots/` folder and add an image, then reference it like this:
+**Streaming or language information is unavailable**
+- Some titles may not have complete provider data.
+- Verify the streaming API configuration and usage limits.
 
-```markdown
-![CineScope home page](screenshots/home.png)
-```
+**Port already in use**
+- Stop the process using the port or configure a different port.
 
 ## 🙌 Acknowledgements
 
-- Movie and TV data is provided by third-party services including TMDB and OMDb.
-- Streaming availability data is supplied by the configured streaming data provider.
-- CineScope is an independent project and is not endorsed or certified by TMDB.
+- [TMDB](https://www.themoviedb.org/) for movie and TV metadata.
+- [OMDb API](https://www.omdbapi.com/) for additional metadata when configured.
+- [YouTube](https://www.youtube.com/) for trailer links.
+- The configured streaming data provider for streaming availability information.
+
+CineScope is an independent project and is not endorsed or certified by TMDB.
 
 ## 📄 License
 
-No license has been specified yet. Add a `LICENSE` file if you decide to publish the project under an open-source license.
+No open-source license has been specified yet. Unless a license is added, the repository should not be assumed to grant others permission to reuse or redistribute its code.
