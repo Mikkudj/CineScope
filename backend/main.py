@@ -5,17 +5,6 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "https://cinescope.divyajyotmehta.workers.dev",
-        "http://localhost:5173",
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 load_dotenv()
 
 KEY = os.getenv("TMDB_API_KEY", "").strip()
@@ -30,6 +19,7 @@ app = FastAPI(title="CineScope API", version="1.1")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        "https://cinescope.divyajyotmehta.workers.dev",
         "http://localhost:5173",
         "http://127.0.0.1:5173",
     ],
